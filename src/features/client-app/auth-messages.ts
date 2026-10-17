@@ -1,7 +1,7 @@
 export type AuthErrorKind = 'weak-password' | 'short-password' | 'same-password' | 'invalid-email' | 'credentials' | 'existing-account' | 'confirmation' | 'expired-link' | 'session' | 'rate-limit' | 'network' | 'unavailable' | 'unknown';
 
-export const signupNotice = 'Se o cadastro puder ser concluído, você receberá um e-mail de confirmação. Confira sua caixa de entrada e o spam. Se já tiver uma conta, use “Entrar” ou “Esqueci minha senha”.';
-export const recoveryNotice = 'Se houver uma conta com este e-mail, enviamos um link para redefinir a senha.';
+export const signupNotice = 'Se o cadastro puder ser concluído, você receberá um e-mail de confirmação. Confira sua caixa de entrada e o spam. Se precisar de ajuda, escreva para suporteadvexon@gmail.com.';
+export const recoveryNotice = 'Se houver uma conta com este e-mail, enviamos um link para redefinir a senha. Se precisar de ajuda, escreva para suporteadvexon@gmail.com.';
 
 export function authErrorKind(error: unknown): AuthErrorKind {
   const details = error && typeof error === 'object' ? error as { code?: unknown; message?: unknown; name?: unknown } : {};
@@ -15,7 +15,7 @@ export function authErrorKind(error: unknown): AuthErrorKind {
   if (['email_exists', 'user_already_exists'].includes(code) || /already.*registered|already.*exists/i.test(text)) return 'existing-account';
   if (code === 'email_not_confirmed' || /email.*not confirmed/i.test(text)) return 'confirmation';
   if (['otp_expired', 'otp_disabled', 'bad_code_verifier', 'flow_state_expired', 'flow_state_not_found'].includes(code) || /expired.*(link|token)|invalid.*(otp|token)/i.test(text)) return 'expired-link';
-  if (['session_not_found', 'session_expired', 'refresh_token_not_found', 'refresh_token_already_used', 'bad_jwt', 'user_not_found'].includes(code) || /session.*(expired|missing)|auth session missing|invalid.*refresh token/i.test(text)) return 'session';
+  if (['session_not_found', 'session_expired', 'refresh_token_not_found', 'refresh_token_already_used', 'bad_jwt', 'user_not_found'].includes(code) || /session.*(expired|missing)|auth session missing/i.test(text)) return 'session';
   if (['over_request_rate_limit', 'over_email_send_rate_limit', 'over_sms_send_rate_limit'].includes(code) || /rate limit|too many requests|after \d+ seconds/i.test(text)) return 'rate-limit';
   if (/failed to fetch|network|fetch failed|load failed/i.test(text)) return 'network';
   if (['signup_disabled', 'email_provider_disabled'].includes(code)) return 'unavailable';
